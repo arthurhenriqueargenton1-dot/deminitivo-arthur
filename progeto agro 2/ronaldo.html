@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoSus - Rooted in Sustainability</title>
+    <style>
+    :root {
+        color-scheme: dark;
+        --verde-escuro: #d8eadd;
+        --verde: #58a875;
+        --fundo: #141a17;
+        --cartao: #202923;
+        --texto: #e5ece7;
+        --texto-suave: #bdc9c1;
+        --borda: #3a4840;
+        --sombra: 0 14px 36px rgba(0,0,0,.24);
+    }
+    * { box-sizing: border-box; }
+    body {
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        background: var(--fundo);
+        color: var(--texto);
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+    }
+    header {
+        padding: clamp(28px, 5vw, 48px) 20px;
+        text-align: center;
+        color: #fff;
+        background: radial-gradient(circle at 90% 15%, rgba(193,226,162,.24), transparent 30%), linear-gradient(125deg,#173f32,#2e7650);
+        border-bottom: 3px solid #75ad72;
+        box-shadow: 0 5px 20px rgba(0,0,0,.2);
+    }
+    .logo-container { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .logo-app {
+        width: 96px;
+        height: 96px;
+        object-fit: cover;
+        border-radius: 24px;
+        border: 2px solid rgba(255,255,255,.75);
+        box-shadow: 0 8px 24px rgba(0,0,0,.22);
+        margin-bottom: 12px;
+    }
+    header h1 { margin: 0; font-size: clamp(2rem,4vw,2.7rem); line-height: 1.2; color: #fff; font-weight: 700; letter-spacing: -.03em; }
+    header p { margin: 6px 0 0; color: #e0eee1; font-size: 1rem; font-style: italic; }
+    .secao-login { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px 56px; }
+    #formularioLogin {
+        width: 100%;
+        max-width: 440px;
+        padding: clamp(25px,5vw,38px);
+        border: 1px solid var(--borda);
+        border-radius: 18px;
+        background: var(--cartao);
+        box-shadow: var(--sombra);
+    }
+    #formularioLogin h2 { margin: 0 0 25px; padding-bottom: 14px; border-bottom: 1px solid var(--borda); color: var(--verde-escuro); text-align: center; font-size: 1.6rem; }
+    label { display: block; margin-bottom: 8px; color: var(--texto); font-size: .95rem; font-weight: 600; }
+    input[type="email"], input[type="password"] {
+        width: 100%;
+        min-height: 48px;
+        margin-bottom: 20px;
+        padding: 12px 15px;
+        border: 1px solid #526158;
+        border-radius: 9px;
+        background: #171e19;
+        color: var(--texto);
+        font: inherit;
+        line-height: 1.4;
+        transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    input::placeholder { color: #89978e; }
+    input[type="email"]:focus, input[type="password"]:focus { border-color: var(--verde); outline: none; box-shadow: 0 0 0 3px rgba(88,168,117,.2); background: #1a241d; }
+    .btn-login {
+        width: 100%;
+        min-height: 50px;
+        padding: 13px 18px;
+        border: 1px solid var(--verde);
+        border-radius: 9px;
+        background: var(--verde);
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 7px 18px rgba(0,0,0,.18);
+        transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .btn-login:hover { background: #397f53; box-shadow: 0 10px 22px rgba(0,0,0,.25); transform: translateY(-1px); }
+    .btn-login:active { transform: translateY(0); }
+    :focus-visible { outline: 3px solid #d7a83e; outline-offset: 3px; }
+    @media (max-width: 520px) {
+        header { padding: 28px 18px; }
+        .logo-app { width: 80px; height: 80px; border-radius: 20px; }
+        .secao-login { padding: 28px 14px 40px; }
+        #formularioLogin { border-radius: 15px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo-RoSus.jpg" alt="Logo do Projeto RoSus" class="logo-app">
+            <h1>RoSus</h1>
+            <p>Rooted in Sustainability</p>
+        </div>
+    </header>
+
+    <section class="secao-login">
+        <form id="formularioLogin">
+            <h2>Iniciar Sessão</h2>
+            
+            <label for="email">E-mail Corporativo ou Escolar:</label>
+            <input type="email" id="email" placeholder="exemplo@gmail.com" required>
+            
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" placeholder="Sua senha" required>
+            
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+    </section>
+
+<script>
+    document.getElementById('formularioLogin').addEventListener('submit', function(evento) {
+        evento.preventDefault(); 
+
+        const emailUtilizador = document.getElementById('email').value;
+        const senhaUtilizador = document.getElementById('senha').value;
+
+        console.log("A tentar iniciar sessão com Atenção:", emailUtilizador);
+
+        if(emailUtilizador && senhaUtilizador) {
+            if(emailUtilizador.includes('@gmail.com') || emailUtilizador.includes('@empresa.com')) {
+                window.location.href = 'dashboard.html';
+            }
+            else {
+                alert("E-mail não institucional! Por favor, utilize o seu e-mail corporativo ou escolar.");
+            }
+        } else {
+            alert("Por favor, preencha todos os campos.");
+        }
+    });
+</script>
+</body>
+</html>

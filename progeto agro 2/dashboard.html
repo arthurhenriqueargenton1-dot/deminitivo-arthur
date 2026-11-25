@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoSus - Painel de Aprendizagem</title>
+    <style>
+:root {
+    color-scheme: dark;
+    --verde-escuro: #d8eadd;
+    --verde: #58a875;
+    --verde-claro: #243a2d;
+    --texto: #e5ece7;
+    --texto-suave: #bdc9c1;
+    --fundo: #141a17;
+    --cartao: #202923;
+    --borda: #3a4840;
+    --alerta: #e16b60;
+    --sombra: 0 14px 36px rgba(0,0,0,.24);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fundo); color: var(--texto); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; line-height: 1.7; }
+nav { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 14px max(24px, calc((100% - 1120px) / 2)); background: rgba(20,42,32,.97); color: #fff; border-bottom: 3px solid #75ad72; box-shadow: 0 5px 20px rgba(0,0,0,.2); }
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-logo img { width: 44px; height: 44px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(255,255,255,.7); }
+.nav-logo h2 { margin: 0; font-size: 1.25rem; letter-spacing: .02em; }
+nav > div:last-child { display: flex; align-items: center; gap: 18px; }
+nav > div:last-child > a:first-child { color: #fff !important; font-weight: 600; text-decoration: none; }
+nav > div:last-child > a:first-child:hover { color: #c7e4c1 !important; }
+.btn-sair { display: inline-block; padding: 8px 17px; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; color: #fff !important; font-weight: 700; text-decoration: none; transition: background .2s,color .2s,transform .2s; }
+.btn-sair:hover { background: #fff; color: #173f32 !important; transform: translateY(-1px); }
+.container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 52px 0 72px; }
+.boas-vindas { margin-bottom: 30px; padding: clamp(26px,5vw,48px); border-radius: 22px; color: #fff; background: radial-gradient(circle at 90% 15%,rgba(193,226,162,.24),transparent 30%),linear-gradient(125deg,#173f32,#2e7650); box-shadow: var(--sombra); }
+.boas-vindas h1 { max-width: 760px; margin: 0 0 12px; font-size: clamp(2rem,4vw,3rem); line-height: 1.15; letter-spacing: -.035em; }
+.boas-vindas p { max-width: 760px; margin: 0; color: #e0eee1; font-size: 1.05rem; }
+.grid-videos { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,320px),1fr)); gap: 24px; margin-bottom: 30px; }
+.video-link-card { overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--borda); border-radius: 18px; background: var(--cartao); color: var(--texto); text-decoration: none; box-shadow: var(--sombra); transition: transform .22s ease,box-shadow .22s ease; }
+.video-link-card:hover { transform: translateY(-5px); box-shadow: 0 20px 42px rgba(0,0,0,.3); }
+a:focus-visible { outline: 3px solid #d7a83e; outline-offset: 4px; }
+.video-capa-simulada,.video-capa-simulada1,.video-capa-simulada2 { min-height: 205px; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; background: linear-gradient(135deg,#173f32,#4d9461 58%,#b4ce8c); }
+.video-link-card:nth-child(2) .video-capa-simulada { background: linear-gradient(135deg,#254638,#527b48 58%,#9b8751); }
+.video-capa-simulada::before,.video-capa-simulada1::before,.video-capa-simulada2::before { content: ""; position: absolute; width: 240px; height: 240px; right: -55px; bottom: -170px; border: 1px solid rgba(255,255,255,.3); border-radius: 50%; box-shadow: 0 0 0 22px rgba(255,255,255,.07),0 0 0 48px rgba(255,255,255,.06); }
+.play-button-visual { z-index: 1; width: 68px; height: 68px; display: flex; justify-content: center; align-items: center; padding-left: 4px; border: 1px solid rgba(255,255,255,.75); border-radius: 50%; background: rgba(255,255,255,.94); color: #173f32; font-size: 1.65rem; box-shadow: 0 8px 24px rgba(0,0,0,.2); transition: transform .2s; }
+.video-link-card:hover .play-button-visual { transform: scale(1.08); }
+.video-info { padding: 23px 25px 25px; }
+.video-info h3 { margin: 0 0 10px; color: var(--verde-escuro); font-size: 1.22rem; line-height: 1.35; }
+.video-info p { margin: 0; color: var(--texto-suave); }
+.painel-conteudo,.painel-denuncias { margin-bottom: 26px; padding: clamp(22px,4vw,34px); border: 1px solid var(--borda); border-radius: 18px; background: var(--cartao); box-shadow: var(--sombra); }
+.painel-conteudo h2,.painel-denuncias h2 { margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--borda); color: var(--verde-escuro); font-size: clamp(1.45rem,3vw,1.85rem); line-height: 1.3; }
+.painel-conteudo > p,.painel-denuncias > p { color: var(--texto-suave); }
+.painel-conteudo h3 { color: var(--verde-escuro); }
+.alerta-desmatamento { margin: 22px 0; padding: 22px 24px; border: 1px solid #405b45; border-left: 5px solid var(--verde); border-radius: 12px; background: var(--verde-claro); }
+.alerta-desmatamento h3 { margin: 0 0 8px; color: var(--verde-escuro); }
+.alerta-desmatamento p { margin: 0; color: var(--texto-suave); }
+.painel-conteudo ul,.painel-denuncias ul { padding-left: 1.3rem; color: var(--texto-suave); }
+.painel-conteudo li,.painel-denuncias li { padding-left: 4px; margin: 9px 0; }
+.painel-conteudo li strong,.painel-denuncias li strong { color: var(--texto); }
+.grelha-dupla { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: minmax(145px,auto); align-items: stretch; gap: 16px; margin-top: 22px; }
+.grelha-dupla > div { display: contents; }
+.item-termo { min-width: 0; height: auto; margin: 0; padding: 18px; border: 1px solid var(--borda); border-left: 4px solid #6b9f62; border-radius: 10px; background: #252f29; color: var(--texto-suave); }
+.item-termo strong { display: block; margin-bottom: 6px; color: var(--verde-escuro); font-size: 1.05rem; }
+.painel-denuncias { border-color: #65423e; background: linear-gradient(145deg,#242321,#292321); }
+.painel-denuncias h2 { color: #f08a7f; border-bottom-color: #65423e; }
+.btn-denuncia { display: inline-block; margin: 10px 12px 0 0; padding: 12px 20px; border: 1px solid var(--alerta); border-radius: 9px; background: var(--alerta); color: #fff; font-weight: 700; text-decoration: none; transition: transform .2s,box-shadow .2s,background .2s; }
+.btn-denuncia:hover { transform: translateY(-2px); box-shadow: 0 7px 18px rgba(184,66,55,.2); background: #99342c; }
+.btn-denuncia[style] { border-color: var(--verde); background: var(--verde) !important; color: #fff !important; }
+.btn-denuncia[style]:hover { background: #173f32 !important; }
+@media(max-width:640px) { nav { padding: 12px 18px; }.nav-logo { gap: 9px; }.nav-logo img { width: 38px; height: 38px; }.nav-logo h2 { font-size: 1.05rem; } nav > div:last-child { gap: 12px; } nav > div:last-child > a:first-child { font-size: .9rem; }.btn-sair { padding: 7px 13px; }.container { width: calc(100% - 28px); padding-top: 28px; }.boas-vindas { border-radius: 16px; }.grelha-dupla { grid-template-columns: 1fr; grid-auto-rows: minmax(120px,auto); gap: 12px; }.painel-conteudo,.painel-denuncias { border-radius: 14px; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">
+            <img src="logo-RoSus.jpg" alt="Logo RoSus">
+            <h2>RoSus Painel</h2>
+        </div>
+        <div>
+            <a href="sobre.html" style="color: rgb(255, 255, 255); font-weight: bold; text-decoration: none; margin-right: 20px;">Sobre Nós</a>
+            <a href="ronaldo.html" class="btn-sair">Sair</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="boas-vindas">
+            <h1>Painel de Aprendizagem & Monitoramento</h1>
+            <p>Explore conteúdos educativos, acompanhe dados sobre o desmatamento e utilize os canais de preservação ambiental.</p>
+        </div>
+
+        <main class="grid-videos">
+            <a href="https://www.youtube.com/watch?v=SjtCDJFgin8" target="_blank" class="video-link-card">
+                <div class="video-capa-simulada">
+                    <div class="play-button-visual">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3>Vídeo Aula 1: Introdução ao ODS 12</h3>
+                    <p><strong>Clique para assistir:</strong> Descubra o impacto do nosso modelo atual de consumo e a urgência de proteger os recursos naturais.</p>
+                </div>
+            </a>
+
+            <a href="https://www.youtube.com/watch?v=Wh8-cHpaptw" target="_blank" class="video-link-card">
+                <div class="video-capa-simulada">
+                    <div class="play-button-visual">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3>Vídeo Aula 2: Sustentabilidade no Agronegócio</h3>
+                    <p><strong>Clique para assistir:</strong> Entenda a relação entre a preservação ambiental, os ecossistemas e a produção responsável no campo.</p>
+                </div>
+            </a>
+        </main>
+
+        <section class="painel-conteudo">
+            <h2>Foco Global: Alerta de Desmatamento</h2>
+            <p>O desmatamento ilegal é uma das maiores ameaças para o equilíbrio do clima global, afetando diretamente a biodiversidade e o regime de chuvas necessário para a própria agricultura.</p>
+
+            <div class="alerta-desmatamento">
+                <h3>Destaque: Cenário no Brasil e no Mundo</h3>
+                <p>A perda de cobertura vegetal em florestas tropicais — como a Amazônia e o Cerrado no Brasil, além das florestas da Indonésia e do Congo — acelera a emissão de gases de efeito estufa. Práticas agrícolas sustentáveis e o rastreamento de cadeias produtivas são fundamentais para garantir que a produção de alimentos não resulte em novas áreas desmatadas.</p>
+            </div>a
+
+            <h3>Notícias e Atualizações Recentes</h3>
+            <ul>
+                <li><strong>Monitoramento por Satélite:</strong> Sistemas de vigilância em tempo real auxiliam na identificação de focos não autorizados de supressão de vegetação, permitindo ações rápidas de fiscalização.</li>
+                <li><strong>Mercado Internacional:</strong> Novas regulamentações globais exigem que produtos como soja, carne e madeira comprovem origem em áreas livres de desmatamento para serem comercializados.</li>
+            </ul>
+        </section>
+
+        <section class="painel-conteudo">
+            <h2>Termos das Agroindústrias</h2>
+            <p>Compreender o vocabulário técnico do setor ajuda a identificar e aplicar métodos mais limpos e eficientes de produção:</p>
+            
+            <div class="grelha-dupla">
+                <div>
+                    <div class="item-termo">
+                        <strong>Agropecuária Regenerativa</strong>
+                        Práticas de cultivo e pastoreio que restauram o solo, aumentam a biodiversidade e capturam carbono da atmosfera.
+                    </div>
+                    <div class="item-termo">
+                        <strong>Cadeia de Custódia</strong>
+                        O caminho percorrido por um produto desde a sua origem no campo até o consumidor final, garantindo sua rastreabilidade.
+                    </div>
+                </div>
+                <div>
+                    <div class="item-termo">
+                        <strong>Logística Reversa</strong>
+                        Retorno de resíduos e embalagens (como defensivos ou plásticos) ao fabricante para destinação correta ou reciclagem.
+                    </div>
+                    <div class="item-termo">
+                        <strong>Bioeconomia</strong>
+                        Modelo de produção baseado na utilização de recursos biológicos renováveis para gerar energia, materiais e alimentos de forma sustentável.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="painel-denuncias">
+            <h2>Canal e Local para Denúncias</h2>
+            <p>A proteção dos ecossistemas depende da vigilância e ação de todos. Se você presenciar queimadas ilegais, desmatamento não autorizado ou contaminação de corpos d'água, utilize os canais oficiais de fiscalização ambiental:</p>
+            
+            <p><strong>Linhas Diretas de Proteção (Brasil):</strong></p>
+            <ul>
+                <li><strong>Linha Verde do IBAMA:</strong> Canal federal para relatos de infrações ambientais em todo o território nacional.</li>
+                <li><strong>Órgãos Estaduais e Guardas Ambientais:</strong> Secretarias de Meio Ambiente locais e batalhões de polícia ambiental atuam diretamente no atendimento de ocorrências regionais.</li>
+            </ul>
+
+            <div style="margin-top: 20px;">
+                <a href="https://www.gov.br/ibama/pt-br" target="_blank" class="btn-denuncia">Acessar Fala.BR / IBAMA</a>
+                <a href="https://www.gov.br/icmbio/pt-br" target="_blank" class="btn-denuncia" style="background-color: #FFFFFF; color: #1A5235;">Portal ICMBio</a>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
